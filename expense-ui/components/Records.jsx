@@ -3,31 +3,53 @@ import { useEffect, useState } from "react";
 export function Records() {
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState();
-  const [description, setDescription] = useState("hello");
-  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("hi");
+  const [category, setCategory] = useState("");
 
-  function loadTasks() {
+  function loadTransaction() {
     axios.get("http://localhost:3005/transactions").then((response) => {
       setTransactions(response.data);
     });
   }
 
-  function createNewTask() {
+  function loadCategory() {
+    axios.get("http://localhost:3005/transactions").then((response) => {
+      setTransactions(response.data);
+    });
+  }
+
+  function createCategory() {
+    axios
+      .post("http://localhost:3005/categories", {
+        category_name: setCategory,
+        id: 1,
+      })
+
+      .then(() => {
+        loadCategory();
+      });
+  }
+
+  function createTransaction() {
     axios
       .post("http://localhost:3005/transactions", {
         amount: amount,
         description: description,
-        title: title,
+        category_name: setCategory,
         user_id: 1,
       })
 
       .then(() => {
-        loadTasks();
+        loadTransaction();
       });
   }
 
   useEffect(() => {
-    loadTasks();
+    loadTransaction();
+  }, []);
+
+  useEffect(() => {
+    loadTransaction();
   }, []);
 
   return (
@@ -38,22 +60,22 @@ export function Records() {
           +Add
         </button>
         <dialog id="my_modal_2" className="modal">
-          <div className="modal-box w-[750px] h-[444px]">
+          <div className="  modal-box w-[750px] h-[444px]">
             <h3 className="font-bold text-lg">Add Record</h3>
-            <button className="btn rounded-3xl hover:bg-[#0166FF]">Expense</button>
-            <button className="btn rounded-3xl mb-7 hover:bg-[#0166FF]">Income</button>
+            <button className="btn rounded-1xl hover:bg-[#0166FF]">Expense</button>
+            <button className="btn rounded-1xl mb-7 hover:bg-[#16A34A]">Income</button>
             <p>Amount</p>
             <input id="1" type="text" title="Amount" placeholder="₮ 0000.0000" className="input input-bordered w-full max-w-xs" value={amount} onChange={(e) => setAmount(e.target.value)} />
-            <p className=" mt-7">Catecory</p>
-            <select value={title} onChange={(e) => setTitle(e.target.value)}>
-              {" "}
-              <option>html</option>
+            <p className="mt-3">Catecory</p>
+            <select className="input input-bordered w-full max-w-xs" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option>Food & Drinks</option>
               <option>css</option>
               <option>javaScript</option>
-            </select>{" "}
+            </select>
             <br />
+            <p className="mt-3">Note</p>
             <input type="text" title="Amount" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Note" className="input input-bordered w-full max-w-xs" />
-            <button className="w-80 h-10 text-white bg-[#0166FF] mt-7 rounded-2xl" onClick={createNewTask}>
+            <button className="w-80 h-10 text-white bg-[#0166FF] mt-7 rounded-2xl" onClick={createTransaction}>
               Add Record
             </button>
           </div>
@@ -70,11 +92,13 @@ export function Records() {
 
         {transactions.map((transaction) => {
           return (
-            <div key={transaction.id} className="w-[894px] h-[64px] flex justify-between items-center border-2 mt-[35px] rounded-xl">
+            <div key={transaction.id} className="w-[894px] h-[64px] flex gap-8 p-8 items-center border-2 mt-[35px] rounded-xl">
               <input type="checkbox" className="w-[24px] h-[24px] " />
-              <h1>{transaction.title}</h1>
-              <div className="text-[#008000]">{transaction.amount}₮</div>
-              <div>{transaction.description}</div>
+              <h1>{transaction.category_name}</h1>
+              <div className="flex flex-1 justify-between">
+                <div>{transaction.description}</div>
+                <div className="text-[#008000]">{transaction.amount}₮</div>
+              </div>
             </div>
           );
         })}
@@ -82,3 +106,11 @@ export function Records() {
     </div>
   );
 }
+
+// transaction_id SERIAL PRIMARY KEY unique not null,
+// user_id integer references users (user_id),
+// title Text,
+// amount Real not null,
+// description TEXT,
+// createdAt timestamp default now(),
+// updatedAt timestamp default now()

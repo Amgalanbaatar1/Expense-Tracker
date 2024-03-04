@@ -2,7 +2,7 @@ import { Logo } from "@/public/headerLogo";
 
 export function Header() {
   return (
-    <div className=" sticky top-0 z-10 bg-white justify-between flex gap-5 container mx-auto border px-5 py-5 xl:py-8 xl:px-[250px] ">
+    <div className=" sticky top-0 z-10  justify-between flex gap-5 container mx-auto border px-5 py-5 xl:py-8 xl:px-[250px] ">
       <div className="flex gap-5">
         <Logo />
         <h2>Dashboard</h2>

@@ -3,15 +3,21 @@ const router = express.Router();
 const { sql } = require("../config/database");
 
 router.get("/", async (req, res) => {
-  const result = await sql`select * from transactions`;
+  const result = await sql`select
+  transactions.id,
+  amount,
+  category_id,
+  categories.name category_name
+  from transactions
+  left join categories on transactions.category_id = categories.id;`;
   res.json(result);
 });
 
 router.post("/", async (req, res) => {
-  const { amount, title, user_id, description } = req.body;
+  const { amount, category_name, id } = req.body;
 
-  const response = await sql`insert into transactions(amount,description,title
-    ,user_id) values(${amount},${description},${title},${user_id})`;
+  const response = await sql`insert into transactions(amount,	category_name,
+    ,id) values(${amount},${category_name},${id})`;
   res.json(response);
 });
 
