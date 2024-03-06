@@ -26,20 +26,25 @@ export function Records() {
       .catch((error) => {
         console.log(error);
       });
+    closeModal();
   }
 
   useEffect(() => {
     loadTransaction();
   }, []);
 
+  const closeModal = () => {
+    return document.getElementById("my_modal_3").close();
+  };
+
   return (
     <div className="container flex  mx-auto p-5 gap-8  border xl:px-[250px]">
       <div className="flex border-2 p-3 flex-col gap-5">
         <div className="text-bold p-2 text-3xl">Records</div>
-        <button className="w-80 h-10 text-white bg-[#0166FF] rounded-2xl" onClick={() => document.getElementById("my_modal_2").showModal()}>
+        <button className="w-80 h-10 text-white bg-[#0166FF] rounded-2xl" onClick={() => document.getElementById("my_modal_3").showModal()}>
           +Add
         </button>
-        <dialog id="my_modal_2" className="modal">
+        <dialog id="my_modal_3" className="modal">
           <div className=" border bg-white p-8 flex  mb-[271px] rounded-xl w-[750px] h-[460px]">
             <div>
               <div className="flex justify-between">

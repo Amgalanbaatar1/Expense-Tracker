@@ -31,7 +31,7 @@ create table categories (
 )
 
 create table transactions (
-    id VARCHAR(21) PRIMARY KEY, #
+    id VARCHAR(40) PRIMARY KEY, #
     amount MONEY, #
     date TIMESTAMP, #
     category_id VARCHAR(21), #
