@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { sql } = require("../config/database");
+const { v4: uuidv4 } = require("uuid");
 
 router.get("/", async (req, res) => {
   const result = await sql`select
@@ -14,10 +15,10 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { amount, category_name, id } = req.body;
+  const { amount, category_id } = req.body;
 
-  const response = await sql`insert into transactions(amount,	category_name,
-    ,id) values(${amount},${category_name},${id})`;
+  // const response = await sql`insert into transactions(amount,	category_id, id) values(1, 2, ${uuidv4()}`;
+  const response = await sql`insert into transactions(id, amount, category_id) values(${uuidv4()}, ${amount}, ${category_id});`;
   res.json(response);
 });
 

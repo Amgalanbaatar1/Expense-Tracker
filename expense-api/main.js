@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/transactions", transactionsRouter);
-app.use("/catecgries", categoriesRouter);
+app.use("/categories", categoriesRouter);
 // app.use("/users", usersRouter);
 
 app.listen(port, () => {

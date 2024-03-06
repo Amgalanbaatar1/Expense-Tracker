@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { CatecorySelect } from "./Select";
 export function Records() {
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState();
-  const [description, setDescription] = useState("hi");
-  const [category, setCategory] = useState("");
+  // const [description, setDescription] = useState("hi");
+  const [category_id, setCategory_id] = useState("");
 
   function loadTransaction() {
     axios.get("http://localhost:3005/transactions").then((response) => {
@@ -12,41 +14,19 @@ export function Records() {
     });
   }
 
-  function loadCategory() {
-    axios.get("http://localhost:3005/transactions").then((response) => {
-      setTransactions(response.data);
-    });
-  }
-
-  function createCategory() {
-    axios
-      .post("http://localhost:3005/categories", {
-        category_name: setCategory,
-        id: 1,
-      })
-
-      .then(() => {
-        loadCategory();
-      });
-  }
-
   function createTransaction() {
     axios
       .post("http://localhost:3005/transactions", {
         amount: amount,
-        description: description,
-        category_name: setCategory,
-        user_id: 1,
+        category_id: category_id,
       })
-
       .then(() => {
         loadTransaction();
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
-
-  useEffect(() => {
-    loadTransaction();
-  }, []);
 
   useEffect(() => {
     loadTransaction();
@@ -60,31 +40,47 @@ export function Records() {
           +Add
         </button>
         <dialog id="my_modal_2" className="modal">
-          <div className="  modal-box w-[750px] h-[444px]">
-            <h3 className="font-bold text-lg">Add Record</h3>
-            <button className="btn rounded-1xl hover:bg-[#0166FF]">Expense</button>
-            <button className="btn rounded-1xl mb-7 hover:bg-[#16A34A]">Income</button>
-            <p>Amount</p>
-            <input id="1" type="text" title="Amount" placeholder="₮ 0000.0000" className="input input-bordered w-full max-w-xs" value={amount} onChange={(e) => setAmount(e.target.value)} />
-            <p className="mt-3">Catecory</p>
-            <select className="input input-bordered w-full max-w-xs" value={category} onChange={(e) => setCategory(e.target.value)}>
-              <option>Food & Drinks</option>
-              <option>css</option>
-              <option>javaScript</option>
-            </select>
-            <br />
-            <p className="mt-3">Note</p>
-            <input type="text" title="Amount" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Note" className="input input-bordered w-full max-w-xs" />
-            <button className="w-80 h-10 text-white bg-[#0166FF] mt-7 rounded-2xl" onClick={createTransaction}>
-              Add Record
-            </button>
+          <div className=" border bg-white p-8 flex  mb-[271px] rounded-xl w-[750px] h-[460px]">
+            <div>
+              <div className="flex justify-between">
+                <h3 className="font-bold text-lg">Add Record</h3>
+              </div>
+              <button className="btn rounded-1xl hover:bg-[#0166FF]">Expense</button>
+              <button className="btn rounded-1xl mb-7 hover:bg-[#16A34A]">Income</button>
+
+              <p>Amount</p>
+              <div className="flex gap-3">
+                <input id="1" type="text" title="Amount" placeholder="₮ 0000.0000" className="input input-bordered w-full max-w-xs" value={amount} onChange={(e) => setAmount(e.target.value)} />
+              </div>
+              <p className="mt-3">Catecory</p>
+              <CatecorySelect value={category_id} onChange={setCategory_id} />
+
+              <div className="flex gap-3 mt-3">
+                <div className="flex flex-col">
+                  <p>Date</p>
+                  <input className="border p-3 rounded-md" type="date" />
+                </div>
+                <div>
+                  <p>Time</p>
+                  <input className="border p-3 rounded-md w-[147px]" type="time" />
+                </div>
+              </div>
+              <button className="w-80 h-10 text-white bg-[#0166FF] mt-7 rounded-2xl" onClick={createTransaction}>
+                Add Record
+              </button>
+            </div>
+            <form className="p-3" method="dialog">
+              <button className="btn text-2xl btn-sm btn-circle btn-ghost ml-[346px]">
+                <AiOutlineClose />
+              </button>
+              <select placeholder="Write here" className="select select-bordered w-[358px]">
+                <option>write here</option>
+                <option>hi</option>
+              </select>
+              <textarea className="border rounded-md mt-5" placeholder="Write here" cols={40} rows={12}></textarea>
+            </form>
           </div>
-
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
         </dialog>
-
         <input type="text" placeholder="Search?" className="w-80 h-8 rounded-md border-2" />
       </div>
       <div className="border-2 p-1">
