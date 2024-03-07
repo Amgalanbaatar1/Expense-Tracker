@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
   const result = await sql`select
   transactions.id,
   amount,
+  date,
   category_id,
   categories.name category_name
   from transactions
@@ -15,10 +16,10 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { amount, category_id } = req.body;
+  const { amount, category_id, date } = req.body;
 
   // const response = await sql`insert into transactions(amount,	category_id, id) values(1, 2, ${uuidv4()}`;
-  const response = await sql`insert into transactions(id, amount, category_id) values(${uuidv4()}, ${amount}, ${category_id});`;
+  const response = await sql`insert into transactions(id, amount, category_id, date) values(${uuidv4()}, ${amount}, ${category_id}, ${date});`;
   res.json(response);
 });
 

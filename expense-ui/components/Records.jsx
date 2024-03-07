@@ -1,10 +1,18 @@
 import axios from "axios";
+import { FaAngleLeft } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+import { FaAngleRight } from "react-icons/fa6";
 import { AiOutlineClose } from "react-icons/ai";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { CatecorySelect } from "./Select";
+import { Hause } from "@/public/Hause";
+import { Cards } from "./Cards";
+import * as dayjs from "dayjs";
+import { AddCategory } from "./AddCategory";
 export function Records() {
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState();
+  const [date, setDate] = useState();
   // const [description, setDescription] = useState("hi");
   const [category_id, setCategory_id] = useState("");
 
@@ -19,6 +27,7 @@ export function Records() {
       .post("http://localhost:3005/transactions", {
         amount: amount,
         category_id: category_id,
+        date: date,
       })
       .then(() => {
         loadTransaction();
@@ -36,16 +45,23 @@ export function Records() {
   const closeModal = () => {
     return document.getElementById("my_modal_3").close();
   };
+  function deleteTransactions(id) {
+    if (confirm("Delete?")) {
+      axios.delete(`http://localhost:3005/transactions/${id}`).then(() => {
+        loadTransaction();
+      });
+    }
+  }
 
   return (
-    <div className="container flex  mx-auto p-5 gap-8  border xl:px-[250px]">
-      <div className="flex border-2 p-3 flex-col gap-5">
+    <div className="container flex bg-[#F3F4F6]  mx-auto p-5 gap-8  border xl:px-[250px]">
+      <div className="flex bg-white rounded-2xl  p-3 flex-col gap-5">
         <div className="text-bold p-2 text-3xl">Records</div>
         <button className="w-80 h-10 text-white bg-[#0166FF] rounded-2xl" onClick={() => document.getElementById("my_modal_3").showModal()}>
           +Add
         </button>
         <dialog id="my_modal_3" className="modal">
-          <div className=" border bg-white p-8 flex  mb-[271px] rounded-xl w-[750px] h-[460px]">
+          <div className=" border bg-white p-8 pt-4 flex  mb-[271px] rounded-xl w-[750px] h-[460px]">
             <div>
               <div className="flex justify-between">
                 <h3 className="font-bold text-lg">Add Record</h3>
@@ -63,7 +79,7 @@ export function Records() {
               <div className="flex gap-3 mt-3">
                 <div className="flex flex-col">
                   <p>Date</p>
-                  <input className="border p-3 rounded-md" type="date" />
+                  <input className="border p-3 rounded-md" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
                 </div>
                 <div>
                   <p>Time</p>
@@ -74,11 +90,11 @@ export function Records() {
                 Add Record
               </button>
             </div>
-            <form className="p-3" method="dialog">
+            <form className="p-2" method="dialog">
               <button className="btn text-2xl btn-sm btn-circle btn-ghost ml-[346px]">
                 <AiOutlineClose />
               </button>
-              <select placeholder="Write here" className="select select-bordered w-[358px]">
+              <select placeholder="Write here" className="select  select-bordered w-[358px]">
                 <option>write here</option>
                 <option>hi</option>
               </select>
@@ -86,20 +102,28 @@ export function Records() {
             </form>
           </div>
         </dialog>
-        <input type="text" placeholder="Search?" className="w-80 h-8 rounded-md border-2" />
-      </div>
-      <div className="border-2 p-1">
-        <h1 className="mt-[10px]">Today</h1>
+        <input type="text" placeholder="Search?" className="w-80 h-8 p-3 rounded-md border-2" />
+        {/*  */}
 
+        <AddCategory />
+      </div>
+      <div className="p-1">
+        <Cards />
         {transactions.map((transaction) => {
           return (
-            <div key={transaction.id} className="w-[894px] h-[64px] flex gap-8 p-8 items-center border-2 mt-[35px] rounded-xl">
+            <div key={transaction.id} className="w-[894px] h-[64px] bg-white flex gap-8 p-8 items-center border-1F3F4F6 mt-[35px] rounded-xl">
               <input type="checkbox" className="w-[24px] h-[24px] " />
-              <h1>{transaction.category_name}</h1>
+              <Hause />
+
+              <div className="flex flex-col">
+                <h1>{transaction.category_name}</h1>
+                <p>{dayjs(transaction.date).format("MM/DD")}</p>
+              </div>
               <div className="flex flex-1 justify-between">
                 <div>{transaction.description}</div>
                 <div className="text-[#008000]">{transaction.amount}₮</div>
               </div>
+              <RiDeleteBin6Line onClick={() => deleteTransactions(transaction.id)} />
             </div>
           );
         })}
@@ -107,11 +131,3 @@ export function Records() {
     </div>
   );
 }
-
-// transaction_id SERIAL PRIMARY KEY unique not null,
-// user_id integer references users (user_id),
-// title Text,
-// amount Real not null,
-// description TEXT,
-// createdAt timestamp default now(),
-// updatedAt timestamp default now()
