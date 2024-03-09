@@ -1,7 +1,7 @@
 import axios from "axios";
-import { FaAngleLeft } from "react-icons/fa6";
+import { Louder } from "@/pages/Louder";
 import { useEffect, useState } from "react";
-import { FaAngleRight } from "react-icons/fa6";
+
 import { AiOutlineClose } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CatecorySelect } from "./Select";
@@ -13,6 +13,8 @@ export function Records() {
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState();
   const [date, setDate] = useState();
+  const [loading, setLoading] = useState(false);
+
   // const [description, setDescription] = useState("hi");
   const [category_id, setCategory_id] = useState("");
 
@@ -34,9 +36,14 @@ export function Records() {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
     closeModal();
   }
+
+  if (loading === undefined) return <Louder />;
 
   useEffect(() => {
     loadTransaction();

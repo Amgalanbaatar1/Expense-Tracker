@@ -2,9 +2,10 @@ import axios from "axios";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { LuPlus } from "react-icons/lu";
+import { SeeIcon } from "@/public/SeeIcon";
 
 export function AddCategory() {
-  const [catecories, setcategories] = useState([]);
+  const [categories, setcategories] = useState([]);
   const [name, setName] = useState([]);
 
   function loadCategory() {
@@ -67,29 +68,38 @@ export function AddCategory() {
         <button onClick={() => document.getElementById("my_modal_4").showModal()}>Add Category</button>
 
         <dialog id="my_modal_4" className="modal">
-          <div className="modal-box">
+          <div className="modal-box p-8">
             <form method="dialog">
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
             <h3 className="font-bold text-lg">Add Category</h3>
-
-            <input type="text" placeholder="Write Category name..." className="border h-[34px] p-2 rounded-lg w-[315px]" />
-            <button className="w-80 h-10  text-white bg-green-500 mt-7 rounded-3xl" onClick={createCategory}>
+            <div className="flex mt-3 gap-3 ">
+              <select className="select select-bordered w-5 max-w-xs">
+                <option disabled selected>
+                  Who shot first?
+                </option>
+                <option>Han Solo</option>
+                <option>Greedo</option>
+              </select>
+              <input type="text" placeholder="Write Category name..." className="border h-[50px] p-2 rounded-lg w-[315px]" value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
+            <button className="w-80 h-10 ml-[69px] text-white bg-green-500 mt-7 rounded-3xl" onClick={createCategory}>
               Add Category
             </button>
           </div>
         </dialog>
       </div>
 
-      {catecories.map((catecory) => {
+      {categories.map((category) => {
         return (
-          <div key={catecory.id} className=" bg-white flex gap-8 p-8 items-center  ">
+          <div key={category.id} className=" bg-white flex gap-8 items-center  ">
             <div className="flex flex-1 justify-between">
-              <div>
-                <p>{catecory.name}</p>
+              <div className="flex justify-center items-center gap-3">
+                <SeeIcon />
+                <p>{category.name}</p>
               </div>
             </div>
-            <RiDeleteBin6Line onClick={() => deleteCategory(catecories.id)} />
+            <RiDeleteBin6Line onClick={() => deleteCategory(category.id)} />
           </div>
         );
       })}

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { sql } = require("../config/database");
-const { v4: uuidv4 } = require("uuid");
+const short = require("short-uuid");
 
 router.get("/", async (req, res) => {
   const result = await sql`select * from categories`;
@@ -11,7 +11,10 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { name } = req.body;
 
-  const response = await sql`insert into categories(name, id)values(${name},${uuidv4()})`;
+  // const response = await sql`insert into categories(name, id)values(${name},${uuidv4()})`;
+
+  const response = await sql`insert into categories(id, name) values(${short.generate()},${name})`;
+
   res.json(response);
 });
 
