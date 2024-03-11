@@ -25,8 +25,9 @@ export function Records() {
   }
 
   function createTransaction() {
+    const login = localStorage.getItem("login");
     axios
-      .post("http://localhost:3005/transactions", {
+      .post(`http://localhost:3005/transactions?logInfo=${login}`, {
         amount: amount,
         category_id: category_id,
         date: date,
