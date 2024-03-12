@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Louder } from "@/pages/Louder";
+import { Loading } from "@/pages/Loading";
 import { useEffect, useState } from "react";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -13,14 +13,16 @@ export function Records() {
   const [transactions, setTransactions] = useState([]);
   const [amount, setAmount] = useState();
   const [date, setDate] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // const [description, setDescription] = useState("hi");
   const [category_id, setCategory_id] = useState("");
 
   function loadTransaction() {
+    setLoading(true);
     axios.get("http://localhost:3005/transactions").then((response) => {
       setTransactions(response.data);
+      setLoading(false);
     });
   }
 
@@ -44,8 +46,6 @@ export function Records() {
     closeModal();
   }
 
-  if (loading === undefined) return <Louder />;
-
   useEffect(() => {
     loadTransaction();
   }, []);
@@ -60,6 +60,8 @@ export function Records() {
       });
     }
   }
+
+  if (loading) return <Loading />;
 
   return (
     <div className="container flex bg-[#F3F4F6]  mx-auto p-5 gap-8  border xl:px-[250px]">
@@ -81,7 +83,8 @@ export function Records() {
               <div className="flex gap-3">
                 <input id="1" type="text" title="Amount" placeholder="₮ 0000.0000" className="input input-bordered w-full max-w-xs" value={amount} onChange={(e) => setAmount(e.target.value)} />
               </div>
-              <p className="mt-3">Catecory</p>
+
+              <p className="mt-3">Category</p>
               <CatecorySelect value={category_id} onChange={setCategory_id} />
 
               <div className="flex gap-3 mt-3">
@@ -94,6 +97,7 @@ export function Records() {
                   <input className="border p-3 rounded-md w-[147px]" type="time" />
                 </div>
               </div>
+              {/*==================================== ADD RECORD ================================================*/}
               <button className="w-80 h-10 text-white bg-[#0166FF] mt-7 rounded-2xl" onClick={createTransaction}>
                 Add Record
               </button>
@@ -104,14 +108,12 @@ export function Records() {
               </button>
               <select placeholder="Write here" className="select  select-bordered w-[358px]">
                 <option>write here</option>
-                <option>hi</option>
               </select>
               <textarea className="border rounded-md mt-5" placeholder="Write here" cols={40} rows={12}></textarea>
             </form>
           </div>
         </dialog>
         <input type="text" placeholder="Search?" className="w-80 h-8 p-3 rounded-md border-2" />
-        {/*  */}
 
         <AddCategory />
       </div>

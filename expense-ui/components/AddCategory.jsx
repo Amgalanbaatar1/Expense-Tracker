@@ -75,11 +75,7 @@ export function AddCategory() {
             <h3 className="font-bold text-lg">Add Category</h3>
             <div className="flex mt-3 gap-3 ">
               <select className="select select-bordered w-5 max-w-xs">
-                <option disabled selected>
-                  Who shot first?
-                </option>
-                <option>Han Solo</option>
-                <option>Greedo</option>
+                <option value="1">hi</option>
               </select>
               <input type="text" placeholder="Write Category name..." className="border h-[50px] p-2 rounded-lg w-[315px]" value={name} onChange={(e) => setName(e.target.value)} />
             </div>

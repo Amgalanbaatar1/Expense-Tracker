@@ -9,7 +9,6 @@ export function Header() {
         <a href="http://localhost:3000/">
           <Logo />
         </a>
-
         <div className="flex  items-center justify-center flex-1 max-sm:hidden">
           <Dashbourd items={menuItems} />
         </div>
