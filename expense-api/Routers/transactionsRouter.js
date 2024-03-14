@@ -16,10 +16,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (req.query.logInfo !== "amgaa@pinecone.mn:Pinecone123") {
-    res.sendStatus(401);
-    return;
-  }
   const { amount, category_id, date } = req.body;
 
   // const response = await sql`insert into transactions(amount,	category_id, id) values(1, 2, ${uuidv4()}`;

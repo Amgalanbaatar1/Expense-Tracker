@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Loading } from "@/pages/Loading";
 import { useEffect, useState } from "react";
-
 import { AiOutlineClose } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CatecorySelect } from "./Select";

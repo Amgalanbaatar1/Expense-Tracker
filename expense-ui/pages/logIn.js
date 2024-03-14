@@ -4,18 +4,18 @@ import { useState } from "react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleSubmit() {
-    console.log({ email, pass });
+    console.log({ email, password });
     axios
-      .post("http://localhost:3005/logIn", {
+      .post("http://localhost:3005/users/login", {
         email,
-        pass,
+        password,
       })
       .then(() => {
         alert("Success");
-        localStorage.setItem("login", `${email}:${pass}`);
+        localStorage.setItem("login", `${email}:${password}`);
         window.location = "/";
       })
       .catch((e) => {
@@ -41,10 +41,16 @@ export default function Login() {
           </div>
           <div className="flex flex-col gap-4">
             <input className="border p-2  rounded-xl bg-[#F3F4F6]" placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} />
-            <input className="border p-2 rounded-xl  bg-[#F3F4F6]" placeholder="password" type="password" onChange={(e) => setPass(e.target.value)} />
+            <input className="border p-2 rounded-xl  bg-[#F3F4F6]" placeholder="password" type="password" onChange={(e) => setPassword(e.target.value)} />
             <button className="border rounded-2xl p-2 text-white bg-[#0166FF]" onClick={handleSubmit}>
               Log In
             </button>
+          </div>
+          <div className="flex gap-3 justify-center items-center mt-10">
+            <p>Don’t have account?</p>
+            <a className="text-[#0166FF]" href="http://localhost:3000/signUp">
+              Sign Up
+            </a>
           </div>
         </div>
         <div className="border w-[1000px] h-[1065px] bg-[#0166FF]"></div>

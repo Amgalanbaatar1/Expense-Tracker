@@ -19,12 +19,6 @@ delete from tasks where id =5
 update tasks set title="Aygaa ugaa " where id=6
 
 
-
-
-
-============================================================
-
-
 create table categories (
     id VARCHAR(40) PRIMARY KEY, #
     name VARCHAR(55) #
@@ -67,3 +61,18 @@ select
     categories.name category_name
 from transactions
     left join categories on transactions.category_id = categories.id;
+
+
+
+
+
+create table users (
+id VARCHAR(40) PRIMARY KEY,
+email VARCHAR(50) UNIQUE NOT NULL,
+name VARCHAR (50)UNIQUE NOT NULL,
+password VARCHAR(100),
+avatar_img TEXT,
+created_at TIMESTAMP default current_timestamp,
+updated_at  TIMESTAMP default current_timestamp,
+current_type TEXT default 'MNT'
+)
