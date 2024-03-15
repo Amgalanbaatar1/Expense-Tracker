@@ -13,6 +13,7 @@ export function Records() {
   const [amount, setAmount] = useState();
   const [date, setDate] = useState();
   const [loading, setLoading] = useState(true);
+  const [type, setType] = useState("Expense");
 
   // const [description, setDescription] = useState("hi");
   const [category_id, setCategory_id] = useState("");
@@ -75,7 +76,7 @@ export function Records() {
               <div className="flex justify-between">
                 <h3 className="font-bold text-lg">Add Record</h3>
               </div>
-              <button className="btn rounded-1xl hover:bg-[#0166FF]">Expense</button>
+              <button className={`btn rounded-1xl hover:bg-[#0166FF]`}>Expense</button>
               <button className="btn rounded-1xl mb-7 hover:bg-[#16A34A]">Income</button>
 
               <p>Amount</p>
@@ -89,11 +90,7 @@ export function Records() {
               <div className="flex gap-3 mt-3">
                 <div className="flex flex-col">
                   <p>Date</p>
-                  <input className="border p-3 rounded-md" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-                </div>
-                <div>
-                  <p>Time</p>
-                  <input className="border p-3 rounded-md w-[147px]" type="time" />
+                  <input className="border p-3 rounded-md" type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)} />
                 </div>
               </div>
               {/*==================================== ADD RECORD ================================================*/}
@@ -115,6 +112,14 @@ export function Records() {
         <input type="text" placeholder="Search?" className="w-80 h-8 p-3 rounded-md border-2" />
 
         <AddCategory />
+        <div>
+          <p className="text-xl">Amount range</p>
+          <div className="flex gap-5">
+            <input type="text" className="border w-[100px] rounded h-[40px]" />
+            <input type="text" className=" border w-[100px] rounded h-[40px]" />
+          </div>
+          <input type="range" className="w-[210px] mt-3" />
+        </div>
       </div>
       <div className="p-1">
         <Cards />
