@@ -13,7 +13,7 @@ export function Records() {
   const [amount, setAmount] = useState();
   const [date, setDate] = useState();
   const [loading, setLoading] = useState(true);
-  const [type, setType] = useState("Expense");
+  const [type, setType] = useState("EXPENSE");
 
   // const [description, setDescription] = useState("hi");
   const [category_id, setCategory_id] = useState("");
@@ -30,7 +30,7 @@ export function Records() {
     const login = localStorage.getItem("login");
     axios
       .post(`http://localhost:3005/transactions?logInfo=${login}`, {
-        amount: amount,
+        amount: type === "EXPENSE" ? -amount : amount,
         category_id: category_id,
         date: date,
       })
@@ -76,8 +76,12 @@ export function Records() {
               <div className="flex justify-between">
                 <h3 className="font-bold text-lg">Add Record</h3>
               </div>
-              <button className={`btn rounded-1xl hover:bg-[#0166FF]`}>Expense</button>
-              <button className="btn rounded-1xl mb-7 hover:bg-[#16A34A]">Income</button>
+              <button onClick={() => setType("EXPENSE")} className={`btn rounded-1xl hover:bg-[#0166FF]`}>
+                Expense
+              </button>
+              <button onClick={() => setType("INCOME")} className="btn rounded-1xl mb-7 hover:bg-[#16A34A]">
+                Income
+              </button>
 
               <p>Amount</p>
               <div className="flex gap-3">
@@ -94,7 +98,7 @@ export function Records() {
                 </div>
               </div>
               {/*==================================== ADD RECORD ================================================*/}
-              <button className="w-80 h-10 text-white bg-[#0166FF] mt-7 rounded-2xl" onClick={createTransaction}>
+              <button className={`${type === "EXPENSE" ? "bg-blue-600" : "bg-green-600"} w-80 h-10 text-white bg-[#0166FF] mt-7 rounded-2xl`} onClick={createTransaction}>
                 Add Record
               </button>
             </div>
@@ -135,7 +139,7 @@ export function Records() {
               </div>
               <div className="flex flex-1 justify-between">
                 <div>{transaction.description}</div>
-                <div className="text-[#008000]">{transaction.amount}₮</div>
+                <div className={`${transaction.amount < 0 ? "text-rose-600" : "text-green-600"}`}>{transaction.amount} ₮</div>
               </div>
               <RiDeleteBin6Line onClick={() => deleteTransactions(transaction.id)} />
             </div>

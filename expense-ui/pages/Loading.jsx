@@ -1,4 +1,3 @@
-import { Header } from "@/components/Header";
 import { Logo } from "@/public/HeaderLogo";
 
 export function Loading() {

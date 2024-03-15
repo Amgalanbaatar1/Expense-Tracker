@@ -1,8 +1,20 @@
 import { CardImg, CardLogo } from "@/public/CardLogo";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaCircleArrowUp } from "react-icons/fa6";
 import { IoArrowDownCircle } from "react-icons/io5";
 
 export function DashbourdD() {
+  const [amount, setAmount] = useState();
+
+  function totalExpense() {
+    axios.get("http://localhost:3005/transactions/sum").then((response) => {
+      setAmount(response.data);
+    });
+  }
+  useEffect(() => {
+    totalExpense();
+  }, []);
   return (
     <div className="container mx-auto border mt-10 px-5 py-5 xl:py-8 xl:px-[250px]">
       <div className="flex gap-10 ">
@@ -22,7 +34,7 @@ export function DashbourdD() {
               <h2 className="text-black font-semibold">Your Income </h2>
             </div>
             <div>
-              <p className="font-semibold text-4xl text-black">1,200,000 ₮</p>
+              {amount && <p className="font-semibold text-4xl text-black">{amount.incomeSum}₮</p>}
               <p className="text-[#64748B]">Your Income Amount</p>
 
               <div className="mt-5">
@@ -39,7 +51,7 @@ export function DashbourdD() {
               <h2 className="text-black font-semibold">Total Expenses</h2>
             </div>
             <div>
-              <p className="font-semibold text-4xl text-black">-200,000 ₮</p>
+              {amount && <p className="font-semibold text-4xl text-black">{amount.expenseSum}₮</p>}
               <p className="text-[#64748B]">Your Income Amount</p>
               <div className="mt-5">
                 <IoArrowDownCircle className="text-[#84CC16] text-2xl" />

@@ -6,13 +6,22 @@ const { v4: uuidv4 } = require("uuid");
 router.get("/", async (req, res) => {
   const result = await sql`select
   transactions.id,
-  amount,
+  amount::money::numeric::float8,
   date,
   category_id,
   categories.name category_name
   from transactions
   left join categories on transactions.category_id = categories.id;`;
   res.json(result);
+});
+
+router.get("/sum", async (req, res) => {
+  const incomeSum = await sql`SELECT sum (amount::money::numeric::float8) FROM transactions where amount::money::numeric::float8 > 0`;
+  const expenseSum = await sql`SELECT sum (amount::money::numeric::float8) FROM transactions where amount::money::numeric::float8 < 0`;
+  res.json({
+    incomeSum: incomeSum[0].sum,
+    expenseSum: expenseSum[0].sum,
+  });
 });
 
 router.post("/", async (req, res) => {
