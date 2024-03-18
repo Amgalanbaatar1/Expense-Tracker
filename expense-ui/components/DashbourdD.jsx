@@ -23,7 +23,7 @@ export function DashbourdD() {
             <CardLogo />
             <div>
               <p className="font-normal ">Cash</p>
-              <h3 className="text-white font-semibold ">10,000,00</h3>
+              {amount && <h3 className="text-white font-semibold ">{amount.incomeSum} ₮</h3>}
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@ export function DashbourdD() {
               <h2 className="text-black font-semibold">Your Income </h2>
             </div>
             <div>
-              {amount && <p className="font-semibold text-4xl text-black">{amount.incomeSum}₮</p>}
+              {amount && <p className="font-semibold text-4xl text-black">{amount.incomeSum} ₮</p>}
               <p className="text-[#64748B]">Your Income Amount</p>
 
               <div className="mt-5">
@@ -51,7 +51,7 @@ export function DashbourdD() {
               <h2 className="text-black font-semibold">Total Expenses</h2>
             </div>
             <div>
-              {amount && <p className="font-semibold text-4xl text-black">{amount.expenseSum}₮</p>}
+              {amount && <p className="font-semibold text-4xl text-black">{amount.expenseSum} ₮</p>}
               <p className="text-[#64748B]">Your Income Amount</p>
               <div className="mt-5">
                 <IoArrowDownCircle className="text-[#84CC16] text-2xl" />
